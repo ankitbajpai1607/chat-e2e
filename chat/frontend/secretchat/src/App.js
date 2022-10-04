@@ -4,14 +4,14 @@ import io from "socket.io-client";
 import { nanoid } from "nanoid";
 
 const CryptoJS = require("crypto-js");
+const sharedKey = "secret key 123";
 
 // Encrypt
-const encryptText = (msg) =>
-  CryptoJS.AES.encrypt(msg, "secret key 123").toString();
+const encryptText = (msg) => CryptoJS.AES.encrypt(msg, sharedKey).toString();
 
 // Decrypt
 const decryptText = (msg) => {
-  const bytes = CryptoJS.AES.decrypt(msg, "secret key 123");
+  const bytes = CryptoJS.AES.decrypt(msg, sharedKey);
   return bytes.toString(CryptoJS.enc.Utf8);
 };
 
@@ -42,7 +42,7 @@ function App() {
           chat.map((el, i) => {
             return (
               <p key={i}>
-                {decryptText(el.message)}: <span>{el.userName}</span>
+                <span>{el.userName}</span>: {decryptText(el.message)}
               </p>
             );
           })}
